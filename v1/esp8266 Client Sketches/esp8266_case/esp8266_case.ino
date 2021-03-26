@@ -306,7 +306,6 @@ void loop() {
 void initCells(){
   Serial.println("In initCells()");
   int r, c;
-  byte counter = 0;
   byte cell_column;
   
   for(r = 0; r < ROWS; r++){
@@ -318,16 +317,15 @@ void initCells(){
             cell_column++;
           }
         }
-        Serial.print("Setting: row: ");
-        Serial.print(r);
-        Serial.print(", column: ");
-        Serial.print(c);
-        Serial.print(" using chunk ");
-        Serial.println(cell_column);
+//        Serial.print("Setting: row: ");
+//        Serial.print(r);
+//        Serial.print(", column: ");
+//        Serial.print(c);
+//        Serial.print(" using chunk ");
+//        Serial.println(cell_column);
         leds[r][c] = CRGB(cells[r][cell_column].red, cells[r][cell_column].green, cells[r][cell_column].blue);
     }
     FastLED.show();
-    counter++;
   }
 }
 
