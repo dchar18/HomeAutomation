@@ -54,6 +54,13 @@ sendMode(String name, String mode) {
   sendRequest(url);
 }
 
+sendCell(String row, String col, String red, String green, String blue) {
+  String cellRequest = row + '/' + col + '/' + red + '/' + green + '/' + blue;
+  url = Uri.http(serverIP + ':' + serverPort, 'esp8266_case/' + cellRequest);
+
+  sendRequest(url);
+}
+
 sendRequest(var url) async {
   // send the request
   print("Sending request to: " + url);
