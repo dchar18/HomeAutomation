@@ -5,6 +5,7 @@ List<String> devices = [
   "Desk",
   "Door",
   "Lego Sian",
+  "Maya",
   "RC Lambo",
 ];
 
@@ -73,6 +74,8 @@ List<List<String>> compatibleModes = [
   ["Off", "Red Stable", "Red Pulse", "Green Stable", "Green Pulse"],
   // Lego Sian --------------
   ["Off/On"],
+  // Maya -------------------
+  ["Off", "RGB", "Speed", "Color Fade", "Party", "Blue twinkle"],
   // RC Lambo ---------------
   ["Off", "RGB", "Color Fade"]
 ];
@@ -93,7 +96,7 @@ class Device {
     this.rgb['green'] = 0.0;
     this.rgb['blue'] = 0.0;
     this.rgb['brightness'] = 65.0;
-    this.currCell = [-1, -1];
+    this.currCell = [0, 0];
   }
 
   String getName() {
@@ -134,6 +137,14 @@ class Device {
 
   void setBlue(double blue) {
     this.rgb['blue'] = blue;
+  }
+
+  getRGB() {
+    return [
+      this.rgb['red'].round(),
+      this.rgb['green'].round(),
+      this.rgb['blue'].round()
+    ];
   }
 
   getBrightness() {

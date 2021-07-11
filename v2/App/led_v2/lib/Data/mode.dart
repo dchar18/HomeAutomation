@@ -11,7 +11,7 @@ class Mode {
 List<Mode> modes = [
   new Mode("Off", off),
   new Mode("Off/On", off),
-  new Mode("RGB", blue),
+  new Mode("RGB", rgb),
   new Mode("Color Fade", fade),
   new Mode("Party", party),
   new Mode("Lava", lava),
@@ -26,7 +26,8 @@ List<Mode> modes = [
   new Mode("Red Pulse", red_pulse),
   new Mode("Green Stable", green),
   new Mode("Green Pulse", green_pulse),
-  new Mode("Cell", cell)
+  new Mode("Cell", cell),
+  new Mode("Speed", speed)
 ];
 
 getModeDict() {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:led_v2/Data/devices.dart';
 import 'package:led_v2/Data/gridCell.dart';
 import 'package:led_v2/Data/mode.dart';
+import 'package:led_v2/Server%20Communication/http_functions.dart';
 import 'package:led_v2/UI/colors.dart';
 import 'package:flutter/services.dart';
 
@@ -57,9 +58,14 @@ class _MainScreenState extends State<MainScreen> {
               ),
               preferredSize: Size.fromHeight(50.0)),
           actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: Icon(Icons.settings),
+            GestureDetector(
+              onTap: () {
+                // navigate to "Add Devices" page
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Icon(Icons.settings),
+              ),
             ),
           ],
         ),
@@ -77,8 +83,10 @@ class _MainScreenState extends State<MainScreen> {
             scrollViewModes(4),
             // Lego Sian
             scrollViewModes(5),
-            // RC Lambo
+            // Maya
             scrollViewModes(6),
+            // RC Lambo
+            scrollViewModes(7),
           ],
         ),
       ),
@@ -137,8 +145,8 @@ class _MainScreenState extends State<MainScreen> {
               sliderText("Row", device.getCell()[0].toDouble(), whiteText),
               Slider(
                 value: device.getCell()[0].toDouble(),
-                min: -1,
-                max: 7,
+                min: 0,
+                max: 8,
                 label: device.getCell()[0].round().toString(),
                 onChanged: (double value) {
                   setState(() {
@@ -163,8 +171,8 @@ class _MainScreenState extends State<MainScreen> {
               sliderText("Column", device.getCell()[1].toDouble(), whiteText),
               Slider(
                 value: device.getCell()[1].toDouble(),
-                min: -1,
-                max: 9,
+                min: 0,
+                max: 10,
                 label: device.getCell()[1].round().toString(),
                 onChanged: (double value) {
                   setState(() {
@@ -270,9 +278,16 @@ class _MainScreenState extends State<MainScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  for (int i = 0; i < grid.length; i++) {
-                    print(grid[i].getSelected());
-                  }
+                  // for (int i = 0; i < grid.length; i++) {
+                  //   print('$i: ' + grid[i].getSelected().toString());
+                  // }
+                  // print(device.getCell());
+                  // print(device.getRGB());
+                  var cells = device.getCell();
+                  var rgb = device.getRGB();
+
+                  sendCell(cells[0].toString(), cells[1].toString(),
+                      rgb[0].toString(), rgb[1].toString(), rgb[2].toString());
                 },
                 child: Container(
                   height: 35,
@@ -300,9 +315,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       );
-    } else {
+    } else if (mode.modeName == "RGB") {
       return Container(
-        height: 100,
+        height: 270,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: mode.background,
@@ -315,15 +330,121 @@ class _MainScreenState extends State<MainScreen> {
         ),
         padding: EdgeInsets.all(20.0),
         margin: EdgeInsets.all(10.0),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            mode.modeName,
-            style: TextStyle(
-              color: mode.modeName == "Brightness" ? darkText : Colors.white,
-              fontSize: 30.0,
-              fontFamily: "Roboto",
-              fontWeight: FontWeight.normal,
+        child: Column(
+          // rgb sliders
+          children: [
+            SizedBox(height: 5),
+            sliderText("Red", device.getRed(), Colors.red.shade900),
+            Slider(
+              value: device.getRed(),
+              min: 0,
+              max: 255,
+              label: device.getRed().round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  device.setRed(value);
+                });
+              },
+              onChangeEnd: (double value) {
+                device.setMode("rgb");
+                sendRGB(
+                    device.deviceName,
+                    device.getRed().round().toString(),
+                    device.getGreen().round().toString(),
+                    device.getBlue().round().toString());
+              },
+              activeColor: Colors.red,
+              inactiveColor: Colors.red[300],
+            ),
+            // SizedBox(height: 5),
+            sliderText("Green", device.getGreen(), slider_text_green),
+            Slider(
+              value: device.getGreen(),
+              min: 0,
+              max: 255,
+              label: device.getGreen().round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  device.setGreen(value);
+                });
+              },
+              onChangeEnd: (double value) {
+                device.setMode("rgb");
+                sendRGB(
+                    device.deviceName,
+                    device.getRed().round().toString(),
+                    device.getGreen().round().toString(),
+                    device.getBlue().round().toString());
+              },
+              activeColor: Colors.green,
+              inactiveColor: Colors.green[300],
+            ),
+            // SizedBox(height: 5),
+            sliderText("Blue", device.getBlue(), slider_text_blue),
+            Slider(
+              value: device.getBlue(),
+              min: 0,
+              max: 255,
+              label: device.getBlue().round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  device.setBlue(value);
+                });
+              },
+              onChangeEnd: (double value) {
+                device.setMode("rgb");
+                sendRGB(
+                    device.deviceName,
+                    device.getRed().round().toString(),
+                    device.getGreen().round().toString(),
+                    device.getBlue().round().toString());
+              },
+              activeColor: Colors.blue,
+              inactiveColor: Colors.blue[300],
+            ),
+          ],
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () {
+          if (device.getName() == 'Lego Sian') {
+            if (device.getMode() == "off") {
+              device.setMode("on");
+              sendMode("sian", "on");
+            } else {
+              device.setMode("off");
+              sendMode("sian", "off");
+            }
+          } else {
+            device.setMode(mode.modeName);
+            sendMode(device.getName(), mode.modeName);
+          }
+        },
+        child: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: mode.background,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30.0),
+            ),
+          ),
+          padding: EdgeInsets.all(20.0),
+          margin: EdgeInsets.all(10.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              mode.modeName,
+              style: TextStyle(
+                color: mode.modeName == "Brightness" ? darkText : Colors.white,
+                fontSize: 30.0,
+                fontFamily: "Roboto",
+                fontWeight: FontWeight.normal,
+              ),
             ),
           ),
         ),

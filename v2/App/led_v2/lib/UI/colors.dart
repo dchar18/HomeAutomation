@@ -41,3 +41,5 @@ List<Color> red = [Color(0xfff44336), Color(0xffff7961)];
 List<Color> green_pulse = [Color(0xff4caf50), Color(0xff087f23)];
 List<Color> red_pulse = [Color(0xfff44336), Color(0xffba000d)];
 List<Color> cell = [Color(0xff00e1fd), Color(0xfffc007a)];
+List<Color> rgb = [Colors.grey.shade900, Colors.grey.shade900];
+List<Color> speed = [Color(0xff3cbce7), Color(0xff00ea5f)];

@@ -77,9 +77,9 @@ List<GridCell> generateGrid() {
 
 void markRow(List<GridCell> grid, Device d) {
   // if the column was not selected yet
-  if (d.getCell()[1] == -1) {
+  if (d.getCell()[1] == 0) {
     // row was reset (both row and col = -1)
-    if (d.getCell()[0] == -1) {
+    if (d.getCell()[0] == 0) {
       // select all the cells
       grid.forEach((element) {
         element.selected = true;
@@ -89,7 +89,7 @@ void markRow(List<GridCell> grid, Device d) {
       grid.forEach((element) {
         // if the chosen row is the same as the cell's row
         // select the entire column
-        if (element.getCoordinates()[0] == d.getCell()[0]) {
+        if (element.getCoordinates()[0] + 1 == d.getCell()[0]) {
           // the cells in that row are marked as selected
           element.selected = true;
         } else {
@@ -100,12 +100,12 @@ void markRow(List<GridCell> grid, Device d) {
     }
   }
   // the row was reset but col is still set
-  else if (d.getCell()[0] == -1) {
+  else if (d.getCell()[0] == 0) {
     // iterate through all GridCell objects
     grid.forEach((element) {
       // if the chosen column is the same as the cell's column
       // select the entire column
-      if (element.getCoordinates()[1] == d.getCell()[1]) {
+      if (element.getCoordinates()[1] + 1 == d.getCell()[1]) {
         // the cell in that column is marked as selected
         element.selected = true;
       } else {
@@ -120,8 +120,8 @@ void markRow(List<GridCell> grid, Device d) {
     // select the individual cell
     grid.forEach((element) {
       // select the entire column
-      if ((element.getCoordinates()[0] == d.getCell()[0]) &&
-          (element.getCoordinates()[1] == d.getCell()[1])) {
+      if ((element.getCoordinates()[0] + 1 == d.getCell()[0]) &&
+          (element.getCoordinates()[1] + 1 == d.getCell()[1])) {
         element.selected = true;
       } else {
         element.selected = false;
@@ -132,9 +132,9 @@ void markRow(List<GridCell> grid, Device d) {
 
 void markColumn(List<GridCell> grid, Device d) {
   // if the row was not selected yet
-  if (d.getCell()[0] == -1) {
+  if (d.getCell()[0] == 0) {
     // col was reset (both row and col = -1)
-    if (d.getCell()[1] == -1) {
+    if (d.getCell()[1] == 0) {
       // select all the cells
       grid.forEach((element) {
         element.selected = true;
@@ -144,7 +144,7 @@ void markColumn(List<GridCell> grid, Device d) {
       grid.forEach((element) {
         // if the chosen column is the same as the cell's column
         // select the entire column
-        if (element.getCoordinates()[1] == d.getCell()[1]) {
+        if (element.getCoordinates()[1] + 1 == d.getCell()[1]) {
           // the cell in that column is marked as selected
           element.selected = true;
         } else {
@@ -155,12 +155,12 @@ void markColumn(List<GridCell> grid, Device d) {
     }
   }
   // the column was reset but row is still set
-  else if (d.getCell()[1] == -1) {
+  else if (d.getCell()[1] == 0) {
     // iterate through all GridCell objects
     grid.forEach((element) {
       // if the chosen column is the same as the cell's column
       // select the entire column
-      if (element.getCoordinates()[0] == d.getCell()[0]) {
+      if (element.getCoordinates()[0] + 1 == d.getCell()[0]) {
         // the cell in that column is marked as selected
         element.selected = true;
       } else {
@@ -174,8 +174,8 @@ void markColumn(List<GridCell> grid, Device d) {
     // select the individual cell
     grid.forEach((element) {
       // select the entire column
-      if ((element.getCoordinates()[0] == d.getCell()[0]) &&
-          (element.getCoordinates()[1] == d.getCell()[1])) {
+      if ((element.getCoordinates()[0] + 1 == d.getCell()[0]) &&
+          (element.getCoordinates()[1] + 1 == d.getCell()[1])) {
         element.selected = true;
       } else {
         element.selected = false;
