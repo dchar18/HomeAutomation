@@ -33,7 +33,7 @@ sendRGB(String name, String red, String green, String blue) {
       url = Uri.http(serverIP + ':' + serverPort, 'sync/rgb/' + combination);
     } else {
       url = Uri.http(serverIP + ':' + serverPort,
-          'esp8266_' + name + 'rgb/' + combination);
+          'esp8266_' + name + '/rgb/' + combination);
     }
   }
 
